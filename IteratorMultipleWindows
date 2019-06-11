@@ -1,0 +1,54 @@
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class AutomatedTester {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("http://the-internet.herokuapp.com/");
+
+		// Excercises
+		Actions actions = new Actions(driver); // bestow the Actions() properties to the driver
+
+		actions.moveToElement(driver.findElement(By.xpath("//div[@id='content']/ul/li[2]/a"))).keyDown(Keys.CONTROL)
+				.click().build().perform(); // opens a new tab from the desired element
+
+		// gets the ids of the windows and assign its values to a string
+		Set<String> id = driver.getWindowHandles();
+		Iterator<String> iterator = id.iterator();
+		String mainMenu = iterator.next();
+		String addRemove = iterator.next();
+
+		// Works on the add remove element tab
+		driver.switchTo().window(addRemove);
+
+		int count = 0;
+
+		for (int i = 0; i < 4; i++) {
+			driver.findElement(By.xpath("//*[@id=\"content\"]/div/button")).click();
+			count++;
+			;
+		}
+
+		for (int i = count; i > 0; i--) {
+			driver.findElement(By.xpath("//div[@id='elements']/button[1]")).click();
+			count--;
+		}
+		driver.close();
+
+
+	}
+
+}

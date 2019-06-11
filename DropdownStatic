@@ -1,0 +1,42 @@
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Handling {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty ("webdriver.chrome.driver", "D:\\Selenium\\chromedriver.exe");
+		WebDriver hand = new ChromeDriver();
+		hand.manage().window().maximize();
+		hand.get("http://spicejet.com");
+		
+		//++++ Static dropdown automation +++
+			// it should always have a select tag
+		
+		//passengers
+		hand.findElement(By.xpath("//div[@id=\'divpaxinfo\']")).click();
+		Thread.sleep(2000);
+		for(int x=1; x<4; x++) {
+		hand.findElement(By.xpath("//*[@id='hrefIncAdt']")).click();		
+		}
+		System.out.println(hand.findElement(By.xpath("//div[@id=\'divpaxinfo\']")).getText());
+		//currency
+		Select s = new Select(hand.findElement(By.xpath("//*[@id=\'ctl00_mainContent_DropDownListCurrency\']")));
+		s.selectByValue("USD");
+		Thread.sleep(500);
+		// From
+		hand.findElement(By.xpath("//*[@id=\'ctl00_mainContent_ddl_originStation1_CTXT\']")).click();
+		hand.findElement(By.xpath("//*[@id=\'dropdownGroup1\']/div/ul[1]/li[1]/a")).click();
+		Thread.sleep(2500);
+		// To
+		hand.findElement(By.xpath("//a[@value='MAA']")).click();
+		
+		
+		
+
+	}
+
+}

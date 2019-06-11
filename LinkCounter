@@ -1,0 +1,60 @@
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class LinkCount {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("http://www.qaclickacademy.com/practice.php");
+		
+		// a tags stand for anchor, every link in html uses that tag
+		
+		System.out.println(driver.findElements(By.tagName("a")).size());
+		
+		
+		// this line creates a webElement with only the footer as scope
+		WebElement footerdriver = driver.findElement(By.id("gf-BIG"));
+		System.out.println(footerdriver.findElements(By.tagName("a")).size());
+		
+		//Web element limited to the first column
+		WebElement footercolumn = driver.findElement(By.xpath("//div[@id='gf-BIG']/table/tbody/tr/td[1]"));
+		System.out.println(footercolumn.findElements(By.tagName("a")).size());
+		
+		//click on each link of the column and check if the pages are opening
+		
+		for (int i =1 ; i <footercolumn.findElements(By.tagName("a")).size(); i++ ) {
+			
+			String clickonlinktabs = Keys.chord(Keys.CONTROL,Keys.ENTER);
+			
+			footercolumn.findElements(By.tagName("a")).get(i).sendKeys(clickonlinktabs);
+			Thread.sleep(5000L);
+		}
+			
+			Set <String> abc = driver.getWindowHandles();
+			Iterator<String> it = abc.iterator();
+		
+			while (it.hasNext()) {
+				
+				driver.switchTo().window(it.next());
+				System.out.println(driver.getTitle());
+				
+			}
+			
+		
+		
+		
+	}
+
+}

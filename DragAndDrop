@@ -1,0 +1,53 @@
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+
+public class ActionsDragAndDrop {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("http://jqueryui.com/droppable/");
+		
+		
+		
+		//since the element we want to drag is inside a frame first we need to indicate the frame.
+		//a frame is like a window inside the website that is why we need to switch the driver.
+		/* frames can be identify by three parameters
+		 * element = just as any other element in the page (the most common)
+		 * index = the number id of the frame(first frame = 0, second frame = 1, etc) - least reliable
+		 * id or name = they are not always provided
+		 */
+		//this command allows to see how many elements with the iframe tag are.
+		System.out.println(driver.findElements(By.tagName("iframe")).size()); 
+		
+		//since the element we want to drag is inside a frame first we need to switch to the desired frame.
+		driver.switchTo().frame(driver.findElement(By.className("demo-frame")));
+		// this line uses index to determine the frame
+		//driver.switchTo().frame(0);
+		driver.findElement(By.id("draggable")).click();
+		
+		//an Actions object is created to drag and drop the element.
+		Actions action = new Actions(driver);
+		//webelements are created to be used as parameters for the drag and drop Action()
+		WebElement source = driver.findElement(By.id("draggable"));
+		WebElement destiny = driver.findElement(By.id("droppable"));
+		// drag and drop can be done by giving elements or coordinates of source and destiny
+		// the actions has to be build() and perform()
+		action.dragAndDrop(source, destiny).build().perform();
+		
+		
+		//this line returns the driver to the main body of the page
+		driver.switchTo().defaultContent();
+		
+
+	}
+
+}

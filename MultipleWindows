@@ -1,0 +1,41 @@
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.*;
+
+public class ActionsMultipleWindows {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://accounts.google.com/signup");
+		driver.findElement(By.xpath("//*[@id='initialView']/footer/ul/li[1]/a")).click();
+
+		// this will store the names of the windows in order first come first serve, in
+		// this case parent to child
+		Set<String> ids = driver.getWindowHandles();
+
+		// .iterator() will allow to traverse in the different values of ids
+		Iterator<String> it = ids.iterator();
+
+		// .next() will allow to assign the next value,in this case the parent
+		String idparent = it.next();
+		// this step gets the next id, in this case the child
+		String idchild = it.next();
+
+		// now we tell the driver to traverse to the desired id, child in this case
+		driver.switchTo().window(idchild);
+		System.out.println(driver.getTitle());
+
+		//this line switch back to the parent
+		driver.switchTo().window(idparent);
+		System.out.println(driver.getTitle());
+	}
+
+}

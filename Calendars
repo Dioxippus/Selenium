@@ -1,0 +1,54 @@
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class CalendarUI {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("https://www.path2usa.com/travel-companions");
+
+		driver.findElement(By.xpath("//*[@id='travel_date']")).click();
+		
+
+		// agust 23th
+		//---------------- Specific MONTH --------------
+		//this loops checks the element containing the month if it is different to "August" it will click next
+		
+    while (!driver.findElement(By.cssSelector("[class='datepicker-days'] [class='datepicker-switch'] "))
+				.getText().contains("August")) {
+			driver.findElement(By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]")).click();
+
+		}
+
+		// ---------------- Specific DAY -------------------------
+		// Principle: find a common attribute to every date and create a List<WebElement> and iterate
+		
+    List<WebElement> day = driver.findElements(By.className("day"));
+
+		int count = day.size();
+
+		// This selects a specific day from the calendar
+		for (int i = 0; i < count; i++) {
+			// this line will create a string with the text from the index position "i"
+			// the first[0] position of the index will be the first element of the element,
+			// .get will "decide" which is chosen
+			String text = driver.findElements(By.className("day")).get(i).getText();
+			// if the value of text is the same as the desired date, in this case 23, it
+			// will click on it
+			if (text.equalsIgnoreCase("23")) {
+				driver.findElements(By.className("day")).get(i).click();
+				break;
+			}
+		}
+
+	}
+
+}

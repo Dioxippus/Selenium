@@ -1,0 +1,36 @@
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+
+
+//TestNG is one of the testing frameworks
+// assertions help us validate our testing
+
+public class Assertions {
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://www.spicejet.com");
+		
+		// this is expecting a false condition
+		Assert.assertFalse(driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected()); 
+		
+		
+		//this ticks the checkbox 
+		driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+		
+		//this assert expect a true condition
+		Assert.assertTrue(driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());
+		
+		//this assert checks a string against another
+		Assert.assertEquals(driver.findElement(By.id("divpaxinfo")).getText(), "1 Adults");
+		
+		//count the number of check boxes
+		System.out.println(driver.findElements(By.cssSelector("input[type='checkbox']")).size());
+		
+		
+	}
+
+}

@@ -1,0 +1,24 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class JavaAlerts {
+// java alerts don't show anything when you spy on them
+	public static void main(String[] args) throws InterruptedException {
+		
+		System.setProperty("webdriver.gecko.driver", "D:\\selenium\\geckodriver.exe");
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.get("http://www.tizag.com/javascriptT/javascriptalert.php");
+
+		driver.findElement(By.xpath("/html/body/table[3]/tbody/tr[1]/td[2]/table/tbody/tr/td/div[4]/form/input")).click();
+		Thread.sleep(1000);
+		
+		//we need to switch from webview to popup view	
+		System.out.println(driver.switchTo().alert().getText());// .getText() captures the text from the alert			
+		driver.switchTo().alert().accept();//it works for: ok, done, accept and every positive scenario
+		// for negative scenarios you have to use .dismiss();
+		// driver.switchTo().alert().sendKeys("xoxoxo"); can be used if the alert ask for text
+	}
+
+}

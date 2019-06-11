@@ -1,0 +1,55 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class EnabledDisabledElements {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://www.spicejet.com");
+
+		/*
+		 * This is the selenium check, its not working that good, current technologies
+		 * make the elements look disabled but they are still functional since selenium
+		 * checks for activity, this means that it will be read as enabled when it is
+		 * disabled
+		 * System.out.println(driver.findElement(By.name("ctl00$mainContent$view_date2")
+		 * ).isEnabled());
+		 * driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_1")).click();
+		 * System.out.println(driver.findElement(By.name("ctl00$mainContent$view_date2")
+		 * ).isEnabled());
+		 */
+
+		/*
+		 * to work around this we need to find the html element that changes from
+		 * enabled to disabled in this case the opacity
+		 */
+
+		System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_1")).click();
+		System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+
+		// the if statement will verify the opacity value and print Enabled.
+		if (driver.findElement(By.id("Div1")).getAttribute("style").contains("1")) {
+			System.out.println("Enabled");
+			Assert.assertTrue(true);
+		} else {
+			Assert.assertTrue(false);
+		}
+
+		// this will fail because the value in the attribute "style" doesn't match the
+		// expected value in the if statement
+		Thread.sleep(1000);
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_0")).click();
+		if (driver.findElement(By.id("Div1")).getAttribute("style").contains("1")) {
+			System.out.println("Enabled");
+			Assert.assertTrue(true);
+		} else {
+			Assert.assertTrue(false);
+		}
+	}
+
+}

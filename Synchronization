@@ -1,0 +1,57 @@
+import java.time.Duration;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Synchronization {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver chrome = new ChromeDriver();
+
+		chrome.manage().window().maximize();
+
+		// * Thread.sleep = this a pause for your script, it is a part of java and it
+		// will halt the excecution of the script during the stablished time.
+
+		// ---------------------Implicit Waits-----------------------
+		// * implicit wait = wait for X secs before throwing exception. This is applied
+		// everywhere the driver is excecuted. If the object is loaded in 2 seconds and
+		// the wait is set to 5 seconds it will move onto the next step once the object
+		// is ready, in this case 2 seconds.
+		chrome.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+		// ---------------------Explicit Waits-----------------------
+		// ********* WebDriver Wait ************
+		// * explicit wait = this is applied to an specific scenario in the test, for
+		// example if you are testing a larger chunk of your data base
+		WebDriverWait explicitWait = new WebDriverWait(chrome, 20);
+		// This object works with an specific driver for the desired amount of time
+		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='news-popup']/div/button")));
+		// This line waits for the previously set amount of time or until an specific
+		// element loads
+		/*
+		 * explicitWait.until(ExpectedConditions.textToBePresentInElement(element, text)
+		 * this line waits for an specific text to show
+		 */
+		// ****** Fluent Wait ********
+		// Fluent wait works like WebDriver Wait but instead of been constantly looking
+		// for the element it looks for the element every n amount of time
+		// it needs customized wait methods based on condition
+		/* Wait<WebDriver> wait = new FluentWait<WebDriver>(chrome).withTimeout(Duration.ofSeconds(30))
+				.pollingEvery(Duration.ofSeconds(3)).ignoring(NoSuchElementException.class);
+		wait.until(arg0)*/
+
+		chrome.get("https://www.elogroalegre.com.ar");
+
+		chrome.findElement(By.xpath("//*[@id='news-popup']/div/button")).click();
+
+	}
+
+}

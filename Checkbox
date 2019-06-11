@@ -1,0 +1,26 @@
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+
+public class Checkbox {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://www.spicejet.com");
+		
+		
+		//this part of the code selects and verifies if the checkbox selection is working properly
+		System.out.println(driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());
+		driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+		//if the checkbox is selected it will come true
+		System.out.println(driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());
+		
+		//count the number of check boxes
+		System.out.println(driver.findElements(By.cssSelector("input[type='checkbox']")).size());
+		
+		
+	}
+
+}

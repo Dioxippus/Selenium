@@ -1,0 +1,54 @@
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class IdentifyingFrames {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("https://patrickhlauke.github.io/recaptcha/");
+		
+		//int number = findFrameNumber(driver,WebElement)
+		int number = findFrameNumber(driver,By.xpath("//*[@id=\"recaptcha-anchor\"]"));
+		driver.switchTo().frame(number);
+		driver.findElement(By.xpath("//*[@id=\"recaptcha-anchor\"]")).click();
+
+	}
+
+	// every frame will have his tag iFrame or frameset
+	public static int findFrameNumber(WebDriver driver, By by) {
+
+		int i;
+		// there will be a relation 1:1 between frames and tagframes
+		int framecount = driver.findElements(By.tagName("iframe")).size();
+		System.out.println("frames: " + framecount);
+
+		// this loop will traverse through the frame count
+		for (i = 0; i < framecount; i++) {
+			driver.switchTo().frame(i);
+
+			// isDisplayed refers to an object that is present constantly but it might not
+			// be visible,
+			// in this case we will use size, if the element is present the value will be 1.
+			int count = driver.findElements(by).size();
+			System.out.println("count: " + count);
+			
+			if (count > 0) {
+				driver.findElement(by).click(); // clicks on
+																						// verify button
+				break;
+			} else {
+				System.out.println("continue looping");
+			}
+		}
+		// this is a mandatory step when traversing through frames
+		driver.switchTo().defaultContent();
+		// this returns the number of the frame in which the object is
+		return i;
+	}
+}

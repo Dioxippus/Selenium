@@ -31,7 +31,9 @@ public class DropdownBasedOnInput {
 		// //https://www.w3schools.com/js/js_htmldom_document.asp
 		// in javascript you need to preced with return for it to be stored as a value
 		String script = "return document.getElementById(\"fromPlaceName\").value;";
-
+		
+		
+		//The string "script" gives the two values that .executeScript(1,2) needs
 		String text = (String) js.executeScript(script);
 		System.out.println(text);
 		int count = 0;

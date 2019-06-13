@@ -1,0 +1,38 @@
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SSL_Certification {
+
+	public static void main(String[] args) {
+		
+		
+		//desired capabilities help you customize your chrome browser general profile
+		//general chrome browser profile
+		DesiredCapabilities ch = DesiredCapabilities.chrome();   //requires import
+		// this objects grants the capacity to accept insecure http certificates
+		ch.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true); 
+		// it can grant many other capacities like SSL
+		ch.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+		
+		//local chrome browser		
+		//chrome options is used to set local browser settings
+		//in the next two line the object "c" is created and given all the capabilities bestowed to "ch"
+		ChromeOptions c = ChromeOptions(); //requieres import
+		c.merge(ch) ;
+		//this capabilities are now granted to the browser
+		System.setProperty("webdriver.chrome.driver", "D://selenium//chromedriver.exe");
+		WebDriver driver = new ChromeDriver(c);
+				
+		
+		
+
+	}
+
+	
+	}
+

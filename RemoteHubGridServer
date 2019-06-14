@@ -1,0 +1,34 @@
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+public class GridHubServer {
+
+	public static void main(String[] args) throws MalformedURLException {
+		// first you need to run a cmd command
+		//// "D:/selenium/ java -jar 'filename'.jar -role hub"
+		// start the hub in a browser
+		///////////////
+		// login from another machine into the hub (it needs java environment/system variables and the driver/s needed)
+		// for that you have to download the selenium server stand alone
+		// register the node in the hub
+		// using the command prompt
+		/*/// "D:/selenium/ java -Dwebdriver.chrome.driver="C:/location/chromedriver.exe" -jar 'filename'.jar -role webdriver -hub
+		           ip:port/grid/register -port 5566"*/
+		//You should receive a message telling you the registration has been successful
+		
+		
+		//------------------- Desired capabilities ------------------
+		// through this you instruct your driver about the OS, browser and other details needed to run the test remotely
+		DesiredCapabilities dc = new DesiredCapabilities();//import org.openqa.selenium.remote.DesiredCapabilities;
+		dc.setBrowserName("Chrome"); // set the browser
+		dc.setPlatform(Platform.WINDOWS); // set the OS
+		//The driver requieres 2 values RemoteWebDriver(server, (browser&OS))
+		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.1.110:4444/wd/hub"), dc);
+		//import java.net.URL;////add exception "throws MalformedURLException"
+		driver.get("http:/google.com");
+		
